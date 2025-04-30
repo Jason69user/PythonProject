@@ -13,10 +13,10 @@ base_url = 'https://www.saucedemo.com/' # Даём ссылку на тести�
 
 driver_chrome.get(base_url) # открываем ссылку в браузере Chrome
 driver_chrome.maximize_window() # окно максимального разрешения
-user_name = driver_chrome.find_element(By.ID, "user-name")
+user_name = driver_chrome.find_element(By.XPATH, '/html/body/div[1]/div/div[2]/div[1]/div/div/form/div[1]/input')
 user_name.send_keys("problem_user") # вводим логин
-password = driver_chrome.find_element(By.ID, "password")
+password = driver_chrome.find_element(By.XPATH, '//*[@id="password"]')
 password.send_keys("secret_sauce") # вводим пароль
-# time.sleep(10)
-# driver_chrome.close()
+time.sleep(10)
+driver_chrome.close()
 
