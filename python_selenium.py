@@ -8,6 +8,8 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 options = webdriver.ChromeOptions()
 options.add_experimental_option("detach", True)
+options.add_argument('--headless')
+
 driver_chrome = webdriver.Chrome(options=options, service=ChromeService(ChromeDriverManager().install()))
 base_url = 'https://www.saucedemo.com/' # Даём ссылку на тестируемый сайт
 
@@ -37,3 +39,4 @@ print(text_products.text) # ищем уникальное значение дл�
 value_text_products = text_products.text
 assert value_text_products == 'Products' # сравниваем уникальное значение с корректным
 print('Заголовок корректен')
+
