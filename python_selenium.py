@@ -21,22 +21,31 @@ user_name.send_keys("problem_user") # вводим логин
 print('input login')
 
 password = driver_chrome.find_element(By.XPATH, '//*[@id="password"]')
-password.send_keys("secret_sauce") # вводим пароль
+password.send_keys("secret_sau") # вводим пароль
 print('input password')
 
 button_login = driver_chrome.find_element(By.ID, 'login-button')
 button_login.click() # кликаем на авторизацию
-print(driver_chrome.current_url)
+print("Click Login")
+# print(driver_chrome.current_url)
 
-get_url = driver_chrome.current_url
-url = 'https://www.saucedemo.com/inventory.html'
-assert url == get_url # сравниваем корректность url
-print('URL корректен')
+# get_url = driver_chrome.current_url
+# url = 'https://www.saucedemo.com/inventory.html'
+# assert url == get_url # сравниваем корректность url
+# print('URL корректен')
 
-text_products = driver_chrome.find_element(By.XPATH, "//span[@class='title']")
-print(text_products.text) # ищем уникальное значение для определения корректности страницы
+warning_text = driver_chrome.find_element(By.XPATH, '//h3[@data-test="error"]') # ищем окно ошибки при вводе некорретного пароля
+value_warning_text = warning_text.text
+assert value_warning_text == 'Epic sadface: Username and password do not match any user in this service' # сравниваем текст ошибки
+print('Сообщение об ошибки корректно')
 
-value_text_products = text_products.text
-assert value_text_products == 'Products' # сравниваем уникальное значение с корректным
-print('Заголовок корректен')
+error_button = driver_chrome.find_element(By.XPATH, '//button[@class ="error-button"]')
+error_button.click() # нажимаем на закрытие текста ошибки
+print("Error button click")
 
+# text_products = driver_chrome.find_element(By.XPATH, "//span[@class='title']")
+# print(text_products.text) # ищем уникальное значение для определения корректности страницы
+#
+# value_text_products = text_products.text
+# assert value_text_products == 'Products' # сравниваем уникальное значение с корректным
+# print('Заголовок корректен')
