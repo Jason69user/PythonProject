@@ -9,7 +9,6 @@ from webdriver_manager.chrome import ChromeDriverManager
 options = webdriver.ChromeOptions()
 options.add_experimental_option("detach", True)
 options.add_argument('--incognito')
-# options.add_argument('--headless')
 
 driver_chrome = webdriver.Chrome(options=options, service=ChromeService(ChromeDriverManager().install()))
 base_url = 'https://www.saucedemo.com/' # Даём ссылку на тестируемый сайт
@@ -30,30 +29,7 @@ button_login.click() # кликаем на авторизацию
 print("Click Login")
 
 menu = driver_chrome.find_element(By.ID, 'react-burger-menu-btn').click() # нажимаем сендвич меню
-
 time.sleep(1)
-
 logout = driver_chrome.find_element(By.ID, "logout_sidebar_link").click() # нажмаем на разлогирование
 
-# print(driver_chrome.current_url)
-
-# get_url = driver_chrome.current_url
-# url = 'https://www.saucedemo.com/inventory.html'
-# assert url == get_url # сравниваем корректность url
-# print('URL корректен')
-#
-# warning_text = driver_chrome.find_element(By.XPATH, '//h3[@data-test="error"]') # ищем окно ошибки при вводе некорретного пароля
-# value_warning_text = warning_text.text
-# assert value_warning_text == 'Epic sadface: Username and password do not match any user in this service' # сравниваем текст ошибки
-# print('Сообщение об ошибки корректно')
-#
-# error_button = driver_chrome.find_element(By.XPATH, '//button[@class ="error-button"]')
-# error_button.click() # нажимаем на закрытие текста ошибки
-# print("Error button click")
-
-# text_products = driver_chrome.find_element(By.XPATH, "//span[@class='title']")
-# print(text_products.text) # ищем уникальное значение для определения корректности страницы
-#
-# value_text_products = text_products.text
-# assert value_text_products == 'Products' # сравниваем уникальное значение с корректным
-# print('Заголовок корректен')
+driver_chrome.close()

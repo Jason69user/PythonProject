@@ -28,30 +28,17 @@ password.send_keys("secret_sauce") # вводим корректный паро�
 print('input password')
 
 user_name.send_keys(Keys.CONTROL + 'a' + Keys.DELETE) # очищаем поле логин
+print('login deleted')
 password.send_keys(Keys.CONTROL + 'a' + Keys.DELETE) # очищаем поле пароль
+print('password deleted')
 
 user_name.send_keys("standard_user") # повторно вводим логин
+print('input login')
 password.send_keys("secret_sauce") # повторно воодим пароль
+print('input password')
 
 button_login = driver_chrome.find_element(By.ID, 'login-button')
 button_login.click() # кликаем на авторизацию
 print("Click Login")
 
-# # кладем товары в корзину
-# button_add_backpack = driver_chrome.find_element(By.ID, "add-to-cart-sauce-labs-backpack").click()
-# button_add_Bike = driver_chrome.find_element(By.ID, "add-to-cart-sauce-labs-bike-light").click()
-# button_add_TShirt = driver_chrome.find_element(By.ID, "add-to-cart-sauce-labs-bolt-t-shirt").click()
-# button_add_Jacket = driver_chrome.find_element(By.ID, "add-to-cart-sauce-labs-fleece-jacket").click()
-# button_add_Onesie = driver_chrome.find_element(By.ID, "add-to-cart-sauce-labs-onesie").click()
-# button_add_TShirt_Red = driver_chrome.find_element(By.ID, "add-to-cart-test.allthethings()-t-shirt-(red)").click()
-# # переходим в корзину
-# button_cart_link = driver_chrome.find_element(By.XPATH, "//a[@data-test='shopping-cart-link']").click()
-#
-# actions = ActionChains(driver_chrome)
-# element = driver_chrome.find_element(By.ID, "item_3_title_link")
-# actions.move_to_element(element).perform() # скролим страницу к последнему товару в списке
-
-# now_date = datetime.datetime.now().strftime('%Y.%m.%d-%H.%M.%S')
-# name_screenshot = 'screenshot' + now_date + '.png'
-# driver_chrome.save_screenshot('D:\\GitHub\\Project\\PythonProject\\screen\\' + name_screenshot) # делаем скриншот страницы
-# # driver_chrome.refresh() # обновляем страницу
+driver_chrome.close()
