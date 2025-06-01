@@ -24,7 +24,7 @@ user_name.send_keys("error_user") # вводим логин
 print('input login')
 
 password = driver_chrome.find_element(By.XPATH, '//*[@id="password"]')
-password.send_keys("secret_sauce") # вводим не корректный пароль
+password.send_keys("secret_sauce") # вводим корректный пароль
 print('input password')
 
 user_name.send_keys(Keys.CONTROL + 'a' + Keys.DELETE) # очищаем поле логин
