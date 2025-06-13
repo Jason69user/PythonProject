@@ -1,5 +1,4 @@
 import time
-from tabnanny import check
 
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
@@ -17,10 +16,13 @@ base_url = 'https://demoqa.com/checkbox' # Даём ссылку на тести
 driver_chrome.get(base_url) # открываем ссылку в браузере Chrome
 driver_chrome.set_window_size(1920, 1080) # окно разрешения
 
-# кликаем на чекбокс "home"
-check_box = driver_chrome.find_element(By.XPATH, "//span[@class='rct-checkbox']")
-check_box.click()
-check_box.is_selected()
+# находим input на чекбокс "home"
+checkbox_input = driver_chrome.find_element(By.CSS_SELECTOR, 'input[id="tree-node-home"]')
+
+# Кликаем по чекбоксу
+checkbox_span = driver_chrome.find_element(By.XPATH, '//span[@class="rct-checkbox"]')
+checkbox_span.click()
+checkbox_input.is_selected()
 print("checkbox select")
 
 time.sleep(2)
