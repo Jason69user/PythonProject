@@ -11,19 +11,20 @@ options.add_experimental_option("detach", True)
 options.add_argument('--incognito')
 
 driver_chrome = webdriver.Chrome(options=options, service=ChromeService(ChromeDriverManager().install()))
-base_url = 'https://demoqa.com/checkbox' # Даём ссылку на тестируемый сайт
+base_url = 'https://demoqa.com/radio-button' # Даём ссылку на тестируемый сайт
 
 driver_chrome.get(base_url) # открываем ссылку в браузере Chrome
 driver_chrome.set_window_size(1920, 1080) # окно разрешения
 
-# находим input на чекбокс "home"
-checkbox_input = driver_chrome.find_element(By.CSS_SELECTOR, 'input[id="tree-node-home"]')
+# Кликаем по Impressive
+radio_button = driver_chrome.find_element(By.XPATH, '(//label[@class="custom-control-label"])[2]')
+radio_button.click()
 
-# Кликаем по чекбоксу
-checkbox_span = driver_chrome.find_element(By.XPATH, '//span[@class="rct-checkbox"]')
-checkbox_span.click()
-checkbox_input.is_selected()
-print("checkbox select")
+# делаем проверку через сравнение
+radio_selected = driver_chrome.find_element(By.XPATH, '//*[@id="app"]/div/div/div/div[2]/div[2]/p/span')
+radio_text = radio_selected.text
+assert radio_text == 'Impressive'
+print("radio button выбран")
 
 time.sleep(2)
 
