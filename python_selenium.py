@@ -1,7 +1,9 @@
 import time
 
 from selenium import webdriver
-from selenium.webdriver import ActionChains
+from datetime import datetime, timedelta
+
+from selenium.webdriver import Keys
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
@@ -12,21 +14,23 @@ options.add_experimental_option("detach", True)
 options.add_argument('--incognito')
 
 driver_chrome = webdriver.Chrome(options=options, service=ChromeService(ChromeDriverManager().install()))
-base_url = 'https://demoqa.com/buttons' # Даём ссылку на тестируемый сайт
+base_url = 'https://demoqa.com/date-picker' # Даём ссылку на тестируемый сайт
 
 driver_chrome.get(base_url) # открываем ссылку в браузере Chrome
 driver_chrome.set_window_size(1920, 1080) # окно разрешения
-action = ActionChains(driver_chrome)
 
-# имитируем двойной клик мыши по кнопке
-double_click = driver_chrome.find_element(By.XPATH, "//button[@id = 'doubleClickBtn']")
-action.double_click(double_click).perform()
-print('Двойной клик мыши')
+# удаляем поле с датой
+data_input = driver_chrome.find_element(By.XPATH, '//*[@id="datePickerMonthYearInput"]')
+data_input.send_keys(Keys.CONTROL + 'a')
+data_input.send_keys(Keys.DELETE)
 
-# имитируем клик правой кнопки мыши
-right_click = driver_chrome.find_element(By.XPATH, "//button[@id = 'rightClickBtn']")
-action.context_click(right_click).perform()
-print('Клик ПКМ')
+time.sleep(1)
+
+# вставляем дату на 10 дней вперед от сегодня
+days_later = datetime.now() + timedelta(days=10)
+current_data = days_later.strftime('%m.%d.%Y')
+print(current_data)
+data_input.send_keys(current_data)
 
 time.sleep(2)
 
