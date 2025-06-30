@@ -17,11 +17,11 @@ base_url = 'https://lambdatest.com/selenium-playground/jquery-dropdown-search-de
 driver_chrome.get(base_url) # открываем ссылку в браузере Chrome
 driver_chrome.set_window_size(1920, 1080) # задаем параметры окна разрешения
 
-# нажимаем на селект
+# нажимаем на dropdown
 select_drop = driver_chrome.find_element(By.XPATH, "//span[@aria-labelledby = 'select2-country-container']")
 select_drop.click()
 
-# выбираем страну из селекта
+# выбираем страну из dropdown
 select_country = driver_chrome.find_element(By.XPATH, "(//li[@class = 'select2-results__option'])[8]")
 select_country.click()
 
