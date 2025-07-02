@@ -13,22 +13,41 @@ options.add_experimental_option("detach", True)
 options.add_argument('--incognito')
 
 driver_chrome = webdriver.Chrome(options=options, service=ChromeService(ChromeDriverManager().install()))
-base_url = 'https://html5css.ru/howto/howto_js_rangeslider.php' # Даём ссылку на тестируемый сайт
+base_url = 'https://lambdatest.com/selenium-playground/simple-form-demo' # Даём ссылку на тестируемый сайт
 
 driver_chrome.get(base_url) # открываем ссылку в браузере Chrome
 driver_chrome.set_window_size(1920, 1080) # задаем параметры окна разрешения
-action = ActionChains(driver_chrome)
 
-# двигаем ползунок Round
-slider = driver_chrome.find_element(By.XPATH, '//input[@class = "slider-color"]') # ссылка на селект
+# отправляем сообщение с проверкой на корректность передачи
+single_input = driver_chrome.find_element(By.XPATH, "//input[@id = 'user-message']")
+input_message = "Магнус не предавал"
+single_input.send_keys(input_message)
+input_checked_value = driver_chrome.find_element(By.XPATH, "//button[@id = 'showInput']")
+input_checked_value.click()
 time.sleep(1)
-action.click_and_hold(slider).move_by_offset(-450, 0).release().perform() # сдвигаем ползунок до 15
-check_value = driver_chrome.find_element(By.XPATH, "//span[@id = 'f']") # ссылка для проверки значения Value
-check_text = check_value.text
-print(f"Значение value: {check_text}")
-assert check_text == "15"
-print('Проверка пройдена')
+your_message = driver_chrome.find_element(By.XPATH, "//p[@id = 'message']")
+text_message = your_message.text
+print(text_message)
+assert text_message == input_message
+print('Сообщения передаются корректно')
 
-time.sleep(3)
+
+# вводим числовые значения и проверяем корректность их подсчета
+first_value = 100
+second_value = 200
+result_sum = first_value + second_value
+print(result_sum)
+
+input_first_value = driver_chrome.find_element(By.XPATH, "//input[@id= 'sum1']")
+input_first_value.send_keys(first_value) # вводим первое число
+input_second_value = driver_chrome.find_element(By.XPATH, "//input[@id= 'sum2']")
+input_second_value.send_keys(second_value) # вводим второе число
+get_sum = driver_chrome.find_element(By.XPATH, "//*[@id='gettotal']/button")
+get_sum.click()
+time.sleep(1)
+result_message = driver_chrome.find_element(By.XPATH, "//p[@id= 'addmessage']")
+text_result = result_message.text
+assert text_result == str(result_sum)
+print("Значения равны")
 
 driver_chrome.close()
