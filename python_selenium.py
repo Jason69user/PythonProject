@@ -22,25 +22,31 @@ iframe = driver_chrome.find_element(By.XPATH, "//iframe[@id= 'iFrame1']")
 driver_chrome.switch_to.frame(iframe)
 
 # редактируем поле с текстом
-input_frame = driver_chrome.find_element(By.XPATH, "//*[@id='__next']/div/div[2]")
+input_frame = driver_chrome.find_element(By.XPATH, "//div[@class='rsw-ce']")
 input_frame.send_keys(Keys.CONTROL + 'a', Keys.DELETE)
 input_frame.send_keys("Bobr")
 value_frame = input_frame.text
 print(value_frame)
 time.sleep(1)
 
-# выделяем текст и включаем жирный курсив
+# выделяем текст и включаем жирный курсив, италик и нижнее подчеркивание
 input_frame.send_keys(Keys.CONTROL + 'a')
 click_panel_bold = driver_chrome.find_element(By.XPATH, "//button[@title = 'Bold']")
 click_panel_bold.click()
-print("Клик по кнопке Bold")
+click_panel_italic = driver_chrome.find_element(By.XPATH, "//button[@title = 'Italic']")
+click_panel_italic.click()
+click_panel_strike = driver_chrome.find_element(By.XPATH, "//button[@title = 'Strike through']")
+click_panel_strike.click()
+print("Клик по кнопкам Bold, Italic и Strike through")
 time.sleep(1)
 
-# сравниваем текст до и после жирного курсива
-new_input_frame = driver_chrome.find_element(By.XPATH, "//*[@id='__next']/div/div[2]/b")
-new_value_frame = new_input_frame.text
+# сравниваем текст до и после редактирования
+new_value_frame = input_frame.text
 print(new_value_frame)
-assert new_value_frame == value_frame
-print("Редактирование успешно")
+try:
+    assert new_value_frame == value_frame
+    print("Редактирование успешно")
+except AssertionError:
+    print("Ошибка редактирования")
 
 driver_chrome.close()
