@@ -46,6 +46,4 @@ print(new_value_frame)
 assert new_value_frame == value_frame, "Значение не совпадают"
 print("Редактирование успешно")
 
-
-
 driver_chrome.close()
