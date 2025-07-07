@@ -15,7 +15,7 @@ driver_chrome = webdriver.Chrome(options=options, service=ChromeService(ChromeDr
 base_url = 'https://www.lambdatest.com/selenium-playground/iframe-demo/' # Даём ссылку на тестируемый сайт
 
 driver_chrome.get(base_url) # открываем ссылку в браузере Chrome
-driver_chrome.set_window_size(1920, 1080) # задаем параметры окна разрешения
+driver_chrome.set_window_size(1261, 2399) # задаем параметры окна разрешения
 
 # переключаемся на iframe
 iframe = driver_chrome.find_element(By.XPATH, "//iframe[@id= 'iFrame1']")
@@ -43,10 +43,9 @@ time.sleep(1)
 # сравниваем текст до и после редактирования
 new_value_frame = input_frame.text
 print(new_value_frame)
-try:
-    assert new_value_frame == value_frame
-    print("Редактирование успешно")
-except AssertionError:
-    print("Ошибка редактирования")
+assert new_value_frame == value_frame, "Значение не совпадают"
+print("Редактирование успешно")
+
+
 
 driver_chrome.close()
