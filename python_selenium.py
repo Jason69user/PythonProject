@@ -12,38 +12,29 @@ options.add_experimental_option("detach", True)
 options.add_argument('--incognito')
 
 driver_chrome = webdriver.Chrome(options=options, service=ChromeService(ChromeDriverManager().install()))
-base_url = 'https://www.lambdatest.com/selenium-playground/iframe-demo/' # Даём ссылку на тестируемый сайт
+base_url = 'https://demoqa.com/browser-windows' # Даём ссылку на тестируемый сайт
 
 driver_chrome.get(base_url) # открываем ссылку в браузере Chrome
 driver_chrome.set_window_size(1261, 2399) # задаем параметры окна разрешения
 
-# переключаемся на iframe
-iframe = driver_chrome.find_element(By.XPATH, "//iframe[@id= 'iFrame1']")
-driver_chrome.switch_to.frame(iframe)
+# открываем вторую вкладку, переключаемся на неё и возвращаемся обратно
+tab_button = driver_chrome.find_element(By.XPATH, "//button[@id = 'tabButton']")
+tab_button.click()
+driver_chrome.switch_to.window(driver_chrome.window_handles[1])
+print("Переключились на вторую вкладку")
+time.sleep(2)
+driver_chrome.switch_to.window(driver_chrome.window_handles[0])
+print("Переключились на первую вкладку")
+time.sleep(2)
 
-# редактируем поле с текстом
-input_frame = driver_chrome.find_element(By.XPATH, "//div[@class='rsw-ce']")
-input_frame.send_keys(Keys.CONTROL + 'a', Keys.DELETE)
-input_frame.send_keys("Bobr")
-value_frame = input_frame.text
-print(value_frame)
-time.sleep(1)
-
-# выделяем текст и включаем жирный курсив, италик и нижнее подчеркивание
-input_frame.send_keys(Keys.CONTROL + 'a')
-click_panel_bold = driver_chrome.find_element(By.XPATH, "//button[@title = 'Bold']")
-click_panel_bold.click()
-click_panel_italic = driver_chrome.find_element(By.XPATH, "//button[@title = 'Italic']")
-click_panel_italic.click()
-click_panel_strike = driver_chrome.find_element(By.XPATH, "//button[@title = 'Strike through']")
-click_panel_strike.click()
-print("Клик по кнопкам Bold, Italic и Strike through")
-time.sleep(1)
-
-# сравниваем текст до и после редактирования
-new_value_frame = input_frame.text
-print(new_value_frame)
-assert new_value_frame == value_frame, "Значение не совпадают"
-print("Редактирование успешно")
+# открываем второе окно, переключаемся на него и возвращаемся обратно
+window_button = driver_chrome.find_element(By.XPATH, "//button[@id = 'windowButton']")
+window_button.click()
+driver_chrome.switch_to.window(driver_chrome.window_handles[1])
+print("Переключились на второе окно")
+time.sleep(2)
+driver_chrome.switch_to.window(driver_chrome.window_handles[0])
+print("Переключились на первое окно")
+time.sleep(2)
 
 driver_chrome.close()
