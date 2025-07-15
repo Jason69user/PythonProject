@@ -1,37 +1,48 @@
-import os
-import time
-
-from unittest.mock import patch
+import glob, os, time
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.common.by import By
-from selenium.webdriver import Keys
 from webdriver_manager.chrome import ChromeDriverManager
 
-
+path_download = r"D:\GitHub\Project\PythonProject\files_download" # даем ссылку на директорию куда загружать файл
 options = webdriver.ChromeOptions()
+prefs = {
+    "download.default_directory": path_download,
+    "download.prompt_for_download": False,
+    "download.directory_upgrade": True,
+    "safebrowsing.enabled": True
+         }
+options.add_experimental_option("prefs", prefs)
 options.add_experimental_option("detach", True)
-options.add_argument('--incognito')
 
 driver_chrome = webdriver.Chrome(options=options, service=ChromeService(ChromeDriverManager().install()))
-base_url = 'https://www.lambdatest.com/selenium-playground/upload-file-demo' # Даём ссылку на тестируемый сайт
-
+base_url = 'https://www.lambdatest.com/selenium-playground/download-file-demo' # Даём ссылку на тестируемый сайт
 driver_chrome.get(base_url) # открываем ссылку в браузере Chrome
 driver_chrome.set_window_size(1261, 2399) # задаем параметры окна разрешения
 
-# получаем путь до файла
-patch_pload = "D:\\GitHub\\Project\\PythonProject\\screen\\shaman.jpg"
+# нажимаем на скачивание файла
+click_button = driver_chrome.find_element(By.XPATH, "//button[contains(text(), 'Download File')]")
+click_button.click()
+time.sleep(3)
 
-# загружаем файл в браузер
-click_button = driver_chrome.find_element(By.XPATH, "//input[@id='file']")
-click_button.send_keys(patch_pload)
-time.sleep(1)
+# проверяем скачанный файл по названию
+file_name = "LambdaTest.pdf"
+file_path = os.path.join(path_download, file_name)
+assert os.access(file_path, os.F_OK) == True
+print("Файл в директории")
 
-# берем название файла и проверяем на корректность
-value = click_button.get_attribute("value")
-actual_file_name = os.path.basename(value)
-print(actual_file_name)
-assert actual_file_name == "shaman.jpg"
-print("Название файла совпадает")
+# проверяем скачанный файл пустой он или нет по размеру
+files = glob.glob(os.path.join(path_download, "*.*"))
+for file in files:
+    a = os.path.getsize(file)
+    if a > 10:
+        print("Файл не пуст")
+    else:
+        print("Файл пуст")
+
+# удаляем файл после проверки
+files = glob.glob(os.path.join(path_download, "*.*"))
+for file in files:
+    os.remove(file)
 
 driver_chrome.close()
