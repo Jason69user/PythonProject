@@ -100,5 +100,3 @@ check_complete = driver_chrome.find_element(By.XPATH, "//span[@class= 'title']")
 complete_value = check_complete.text
 assert complete_value == "Checkout: Complete!"
 print("Поздравляем! Вы совершили покупку")
-
-driver_chrome.close()
