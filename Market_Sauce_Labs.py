@@ -26,12 +26,18 @@ button_login.click() # кликаем на авторизацию
 
 # создаем словарь с товаром
 data_market = {
-    "1": {"name": "Sauce Labs Backpack", "action": lambda: driver_chrome.find_element(By.ID, 'add-to-cart-sauce-labs-backpack').click()},
-    "2": {"name": "Sauce Labs Bike Light", "action": lambda: driver_chrome.find_element(By.ID, 'add-to-cart-sauce-labs-bike-light').click()},
-    "3": {"name": "Sauce Labs Bolt T-Shirt", "action": lambda: driver_chrome.find_element(By.ID, 'add-to-cart-sauce-labs-bolt-t-shirt').click()},
-    "4": {"name": "Sauce Labs Fleece Jacket", "action": lambda: driver_chrome.find_element(By.ID, 'add-to-cart-sauce-labs-fleece-jacket').click()},
-    "5": {"name": "Sauce Labs Onesie", "action": lambda: driver_chrome.find_element(By.ID, 'add-to-cart-sauce-labs-onesie').click()},
-    "6": {"name": "Test.allTheThings() T-Shirt (Red)", "action": lambda: driver_chrome.find_element(By.ID, 'add-to-cart-test.allthethings()-t-shirt-(red)').click()},
+    "1": {"name": "Sauce Labs Backpack",
+          "action": lambda: driver_chrome.find_element(By.ID, 'add-to-cart-sauce-labs-backpack').click()},
+    "2": {"name": "Sauce Labs Bike Light",
+          "action": lambda: driver_chrome.find_element(By.ID, 'add-to-cart-sauce-labs-bike-light').click()},
+    "3": {"name": "Sauce Labs Bolt T-Shirt",
+          "action": lambda: driver_chrome.find_element(By.ID, 'add-to-cart-sauce-labs-bolt-t-shirt').click()},
+    "4": {"name": "Sauce Labs Fleece Jacket",
+          "action": lambda: driver_chrome.find_element(By.ID, 'add-to-cart-sauce-labs-fleece-jacket').click()},
+    "5": {"name": "Sauce Labs Onesie",
+          "action": lambda: driver_chrome.find_element(By.ID, 'add-to-cart-sauce-labs-onesie').click()},
+    "6": {"name": "Test.allTheThings() T-Shirt (Red)",
+          "action": lambda: driver_chrome.find_element(By.ID, 'add-to-cart-test.allthethings()-t-shirt-(red)').click()},
     "7": {"name": "Выйти из магазина", "action": lambda: exit()}
 }
 
@@ -62,41 +68,30 @@ def market_menu():
 market_menu()
 
 # сохраняем в переменные название и цену выбранного товара
-check_item = driver_chrome.find_element(By.XPATH, "//div[@class= 'inventory_item_name']")
-value_item = check_item.text
-check_price = driver_chrome.find_element(By.XPATH, "//div[@class= 'inventory_item_price']")
-value_price = check_price.text
-click_checkout = driver_chrome.find_element(By.XPATH, "//button[@id= 'checkout']")
-click_checkout.click()
+check_item = driver_chrome.find_element(By.XPATH, "//div[@class= 'inventory_item_name']").text
+check_price = driver_chrome.find_element(By.XPATH, "//div[@class= 'inventory_item_price']").text
+click_checkout = driver_chrome.find_element(By.XPATH, "//button[@id= 'checkout']").click()
 
 # с помощью фейкера вводим имя/фамилию/пароль
-first_name = fake.first_name()
+first_name = fake.name()
 last_name = fake.last_name()
 postal_code = fake.password()
-click_first_name = driver_chrome.find_element(By.ID, 'first-name')
-click_first_name.send_keys(first_name) # вводим имя
-click_last_name = driver_chrome.find_element(By.ID, 'last-name')
-click_last_name.send_keys(last_name) # вводим имя
-click_code = driver_chrome.find_element(By.ID, 'postal-code')
-click_code.send_keys(postal_code) # вводим имя
+click_first_name = driver_chrome.find_element(By.ID, 'first-name').send_keys(first_name) # вводим имя
+click_last_name = driver_chrome.find_element(By.ID, 'last-name').send_keys(last_name) # вводим фамилию
+click_code = driver_chrome.find_element(By.ID, 'postal-code').send_keys(postal_code) # вводим пароль
 time.sleep(1)
-click_continue = driver_chrome.find_element(By.ID, "continue")
-click_continue.click()
+click_continue = driver_chrome.find_element(By.ID, "continue").click()
 
 # проверяем название и цену товара в корзине
-inventory_item = driver_chrome.find_element(By.XPATH, "//div[@class= 'inventory_item_name']")
-inventory_item_value = inventory_item.text
-assert inventory_item_value == value_item
-print(f"Название {inventory_item_value} соответствует")
-inventory_price = driver_chrome.find_element(By.XPATH, "//div[@class= 'inventory_item_price']")
-inventory_price_value = inventory_price.text
-assert inventory_price_value == value_price
-print(f"Цена {inventory_price_value} соответствует")
-click_finish = driver_chrome.find_element(By.ID, "finish")
-click_finish.click()
+inventory_item = driver_chrome.find_element(By.XPATH, "//div[@class= 'inventory_item_name']").text
+assert inventory_item == check_item
+print(f"Название {inventory_item} соответствует")
+inventory_price = driver_chrome.find_element(By.XPATH, "//div[@class= 'inventory_item_price']").text
+assert inventory_price == check_price
+print(f"Цена {inventory_price} соответствует")
+click_finish = driver_chrome.find_element(By.ID, "finish").click()
 
 # совершаем покупку и проверяем финишную страницу
-check_complete = driver_chrome.find_element(By.XPATH, "//span[@class= 'title']")
-complete_value = check_complete.text
-assert complete_value == "Checkout: Complete!"
+check_complete = driver_chrome.find_element(By.XPATH, "//span[@class= 'title']").text
+assert check_complete == "Checkout: Complete!"
 print("Поздравляем! Вы совершили покупку")
