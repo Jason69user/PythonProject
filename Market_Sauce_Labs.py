@@ -17,12 +17,9 @@ driver_chrome.get(base_url) # открываем ссылку в браузер�
 driver_chrome.set_window_size(1261, 2399) # задаем параметры окна разрешения
 
 # проходим авторизацию
-user_name = driver_chrome.find_element(By.ID, 'user-name')
-user_name.send_keys("standard_user") # вводим логин
-password = driver_chrome.find_element(By.ID, 'password')
-password.send_keys("secret_sauce") # вводим пароль
-button_login = driver_chrome.find_element(By.ID, 'login-button')
-button_login.click() # кликаем на авторизацию
+driver_chrome.find_element(By.ID, 'user-name').send_keys("standard_user") # вводим логин
+driver_chrome.find_element(By.ID, 'password').send_keys("secret_sauce") # вводим пароль
+driver_chrome.find_element(By.ID, 'login-button').click() # кликаем на авторизацию
 
 # создаем словарь с товаром
 data_market = {
@@ -44,7 +41,6 @@ data_market = {
 # вызываем меню магазина
 def market_menu():
     print("Приветствую тебя в нашем интернет - магазине")
-    cart_link = driver_chrome.find_element(By.XPATH, "//a[@class= 'shopping_cart_link']")
 
     while True:
         print("\nВыбери один из следующих товаров и укажи его номер: ")
@@ -60,7 +56,7 @@ def market_menu():
             else:
                 data_market[enter]["action"]()
                 print(f"Вы выбрали {data_market[enter]['name']}")
-                cart_link.click()
+                driver_chrome.find_element(By.XPATH, "//a[@class= 'shopping_cart_link']").click()
                 return
         else:
             print("Неверный выбор. Пожалуйста, введите число от 1 до 7")
@@ -70,17 +66,14 @@ market_menu()
 # сохраняем в переменные название и цену выбранного товара
 check_item = driver_chrome.find_element(By.XPATH, "//div[@class= 'inventory_item_name']").text
 check_price = driver_chrome.find_element(By.XPATH, "//div[@class= 'inventory_item_price']").text
-click_checkout = driver_chrome.find_element(By.XPATH, "//button[@id= 'checkout']").click()
+driver_chrome.find_element(By.XPATH, "//button[@id= 'checkout']").click()
 
 # с помощью фейкера вводим имя/фамилию/пароль
-first_name = fake.name()
-last_name = fake.last_name()
-postal_code = fake.password()
-click_first_name = driver_chrome.find_element(By.ID, 'first-name').send_keys(first_name) # вводим имя
-click_last_name = driver_chrome.find_element(By.ID, 'last-name').send_keys(last_name) # вводим фамилию
-click_code = driver_chrome.find_element(By.ID, 'postal-code').send_keys(postal_code) # вводим пароль
+driver_chrome.find_element(By.ID, 'first-name').send_keys(fake.name()) # вводим имя
+driver_chrome.find_element(By.ID, 'last-name').send_keys(fake.last_name()) # вводим фамилию
+driver_chrome.find_element(By.ID, 'postal-code').send_keys(fake.password()) # вводим пароль
 time.sleep(1)
-click_continue = driver_chrome.find_element(By.ID, "continue").click()
+driver_chrome.find_element(By.ID, "continue").click()
 
 # проверяем название и цену товара в корзине
 inventory_item = driver_chrome.find_element(By.XPATH, "//div[@class= 'inventory_item_name']").text
@@ -89,7 +82,7 @@ print(f"Название {inventory_item} соответствует")
 inventory_price = driver_chrome.find_element(By.XPATH, "//div[@class= 'inventory_item_price']").text
 assert inventory_price == check_price
 print(f"Цена {inventory_price} соответствует")
-click_finish = driver_chrome.find_element(By.ID, "finish").click()
+driver_chrome.find_element(By.ID, "finish").click()
 
 # совершаем покупку и проверяем финишную страницу
 check_complete = driver_chrome.find_element(By.XPATH, "//span[@class= 'title']").text
