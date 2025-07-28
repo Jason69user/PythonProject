@@ -4,6 +4,8 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from login_page import LoginPage
+
 
 # создаем класс
 class Test:
@@ -17,18 +19,11 @@ class Test:
         driver_chrome.get(base_url)  # открываем ссылку в браузере Chrome
         driver_chrome.set_window_size(1261, 924)  # задаем параметры окна разрешения
 
-        print("Старт тест")
+        # создаем экземпляр класса авторизации
+        login = LoginPage(driver_chrome)
+        login.autorization(login_name="standard_user", login_password="secret_sauce")
 
-        # проводим авторизацию
-        WebDriverWait(driver_chrome, 30).until(EC.element_to_be_clickable
-                                               ((By.ID, 'user-name'))).send_keys("standard_user")  # вводим логин
-        print('Input User Name')
-        WebDriverWait(driver_chrome, 30).until(EC.element_to_be_clickable
-                                               ((By.ID, 'password'))).send_keys("secret_sauce")  # вводим пароль
-        print('Input Password')
-        WebDriverWait(driver_chrome, 30).until(EC.element_to_be_clickable
-                                               ((By.ID, 'login-button'))).click()  # кликаем на авторизацию
-        print('Click Login Button')
+        print("Старт тест")
 
         # выбираем товар и переходим в корзину
         WebDriverWait(driver_chrome, 30).until(EC.element_to_be_clickable
